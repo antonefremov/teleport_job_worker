@@ -7,7 +7,7 @@ Linux processes.
 
 Before a draft simplified Technical Architecture can be drawn, let's make a few design assumptions.
 
-#### First of all, the app will provide 3 gRPC APIs:
+#### Provided gRPC APIs:
 
 1. Client schedules several jobs on server (client-streaming gRPC).
 This is a client-streaming RPC API that allows client to send multiple commands to the server.
@@ -19,21 +19,29 @@ Server responds with results of execution for each command and corresponding log
 
 3. After Client has scheduled several jobs on server and received a CorrelationID, they can connect to a streaming log output of a running batch process (server-streaming gRPC).
 
-#### Secondly, the app will have the following properties:
-
+#### Persistency
 - The app won't have any db persistency. Therefore, all the execution results and logs will be saved locally in files on a Linux machine running the app.
-- Each batch should be associated with a unique CorrelationID so that all executable commands within a batch should be easily found in the Logs and Output. 
-- The app will not have its own surrounding PKI to be used, so the corresponding certificates will be generated during the app installation and re-used in all subsequent interactions thereafter.
+
+#### Streaming output
+- An API will be provided for the clients to receive a streaming log output of a running job process. 
+
+#### Administration/Monitoring
+- The app will have an API to start/stop the service and to query it's current status by respective admin staff.
+
+#### Traceability
+- Each batch should be associated with a unique CorrelationID so that all executable commands within a batch should be easily found in the Logs and Output.
+
+#### Security
+- The app will not have its own surrounding PKI to be used, so the corresponding mock certificates will be generated during the app installation and re-used in all subsequent interactions thereafter.
+
+#### Configuration
+- The app should support dynamic config on start up and during the run.
+
+#### Logging
+- Both execution logs and output results will be stored in the file system as separate files. I/O sync objects will be required for querying/writing by multiple clients.
 
 The simplified Technical Architecture of the app will look as follows:
 ![Architecture image](/proposed_arch.jpg)
-
-## Proposed features of the app
-
-- Streaming output
-- Dynamic config
-- Logging
-- Monitoring
 
 ## Quick start
 
