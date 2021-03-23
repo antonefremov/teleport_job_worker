@@ -7,12 +7,10 @@ Linux processes.
 
 Before a draft simplified Technical Architecture can be drawn, let's make a few design assumptions.
 
-#### Provided gRPC APIs:
+#### Proposed gRPC APIs:
 
 1. Client schedules several jobs on server (client-streaming gRPC).
-This is a client-streaming RPC API that allows client to send multiple commands to the server.
-
-Server responds with a CorrelationID for the jobs.
+This is a client-streaming RPC API that allows client to send multiple commands to the server. Server responds with a CorrelationID for the jobs.
 
 2. Client queries the batch job results and logs by a given CorrelationID (unary gRPC).
 Server responds with results of execution for each command and corresponding logs by a passed CorrelationID.
